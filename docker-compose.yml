@@ -1,0 +1,55 @@
+version: '2.1'
+services: 
+    db:
+        image: mysql:5
+        container_name: db
+        command: --default-authentication-plugin=mysql_native_password
+        ports: 
+            - '3306:3306'
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: timesdb
+          TZ: Europe/Sofia
+        volumes: 
+            - '${PWD}/configs:/etc/mysql/conf.d'
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 2s
+            retries: 30
+    go_saopaulo_full:
+        build: .
+        environment: 
+            CON_STRING: root:password@tcp(db:3306)/timesdb?parseTime=true&loc=America%2FSao_Paulo&time_zone=%27America%2FSao_Paulo%27
+        ports:
+            - 8101:8080
+        depends_on:
+            db:
+                condition: service_healthy            
+    go_saopaulo_loc:
+        build: .
+        environment: 
+            CON_STRING: root:password@tcp(db:3306)/timesdb?parseTime=true&loc=America%2FSao_Paulo
+        ports:
+            - 8102:8080
+        depends_on:
+            db:
+                condition: service_healthy            
+    go_saopaulo_session:
+        build: .
+        environment: 
+            CON_STRING: root:password@tcp(db:3306)/timesdb?parseTime=true&time_zone=%27America%2FSao_Paulo%27            
+        ports:
+            - 8103:8080
+        depends_on:
+            db:
+                condition: service_healthy            
+    go_none:
+        build: .
+        environment: 
+            CON_STRING: root:password@tcp(db:3306)/timesdb?parseTime=true
+        ports:
+            - 8104:8080
+        depends_on:
+            db:
+                condition: service_healthy            
