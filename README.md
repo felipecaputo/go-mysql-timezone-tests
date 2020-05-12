@@ -54,3 +54,14 @@ Source code from the program is in `main.go`
 
 To run, you just need to run `run.sh` (and problably give execution permissions to it before running `chmod +x run.sh`)
 
+## Proposal
+
+Considering other database drivers, seems plausible that the driver could handle the timezone automatically, based on 
+some configuration, considering it, and avoiding breaking anyone using the connection as it is now, I think that, creating
+a `configTZ` as a `boolean configuration parameter`, to implement the timezone configuration behavior.
+
+|  |||||
+|------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| loc        | nil                                                                 | America/SaoPaulo                                                                                                         | nil                                                                                                                      | America/Sao_Paulo                                                                                                                                 |
+| timezone   | nil                                                                 | nil                                                                                                                      | America/Sao_Paulo                                                                                                        | Europa/Sofia                                                                                                                                      |
+| Behavior   | Read from the <br> database and <br>set loc to the <br>same timezone | After connect <br>to databse, <br>configure session<br>to America/Sao_Paulo<br>timezone, and use it<br>when parsing time | After connect <br>to databse, <br>configure session<br>to America/Sao_Paulo<br>timezone, and use it<br>when parsing time | Configure as<br>specified by the<br>user, but generates<br>a warning, telling <br>that TIMEZONE fields<br>could face a difference<br>after parse. |
