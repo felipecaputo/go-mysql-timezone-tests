@@ -58,7 +58,7 @@ To run, you just need to run `run.sh` (and probably, need to give execution perm
 
 Considering other database drivers, seems plausible that the driver could handle the timezone automatically, based on 
 some configuration, considering it, and avoiding breaking anyone using the connection as it is now, I think that, creating
-a `configTZ` as a `boolean configuration parameter`, to implement the timezone configuration behavior.
+a `configTZ` as a `boolean configuration parameter`, that default value will be `false`, to implement the timezone configuration behavior bellow, when set as `true`.
 
 |  |||||
 |------------|---------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
